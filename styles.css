@@ -615,7 +615,6 @@ header {
 /* footer */
 .rodape {
     text-align: center;
-    padding: 2rem 0;
     margin-top: 2rem;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -755,7 +754,7 @@ header {
 @media (min-width: 1024px) {
     .container-principal {
         max-width: 1200px;
-        padding: 2rem 2rem 4rem;
+        padding: 2rem 2rem 1rem;
     }
 
     .conteudo-principal {
