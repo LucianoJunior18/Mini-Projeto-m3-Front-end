@@ -132,7 +132,7 @@ npx serve
 ## 🌐 Deploy
 
 - Backend: Render  
-- Frontend: Vercel ou GitHub Pages  
+- Frontend: Vercel  
 
 ---
 
