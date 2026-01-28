@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow</title>
+
+    <!-- google fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- favicon -->
+    <link rel="icon" type="image/png" sizes="64x64" href="/img/circle-check-solid.svg">
+
+
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container-principal">
+        <header class="header">
+            <button class="botao-tema" id="botaoTema" aria-label="Alternar tema">
+                <i class="fas fa-moon"></i>
+            </button>
+
+            <div class="conteudo-header">
+                <div class="logo-header">
+                    <i class="fas fa-check-circle"></i>
+                    <h1>TaskFlow</h1>
+                </div>
+                <p class="descricao-header">Organize suas atividades diárias de forma prática</p>
+            </div>
+
+        </header>
+
+
+        <!-- conteudo principal -->
+        <main class="conteudo-principal">
+            <!-- formulario tarefa -->
+            <section class="secao-formulario" aria-labelledby="titulo-formulario">
+                <h2 id="titulo-formulario" class="titulo-secao">
+                    <i class="fas fa-plus-circle"></i>
+                    Adicionar Nova Tarefa
+                </h2>
+
+                <form id="formTarefa" class="formulario-tarefa">
+                    <div class="grupo-campo">
+                        <label for="titulo">
+                            <i class="fas fa-heading"></i>
+                            Título da Tarefa
+                        </label>
+                        <input type="text" id="titulo" name="titulo" placeholder="Digite o título da tarefa" required
+                            maxlength="100">
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label for="descricao">
+                            <i class="fas fa-align-left"></i>
+                            Descrição Detalhada
+                        </label>
+                        <textarea id="descricao" name="descricao" placeholder="Descreva os detalhes da tarefa" required
+                            maxlength="500"></textarea>
+                        <small class="contador-caracteres">0/500</small>
+
+                    </div>
+
+                    <button type="submit" class="botao botao-adcionar">
+                        <i class="fas fa-plus"></i>
+                        Adicionar Tarefa
+                    </button>
+                </form>
+            </section>
+
+            <!-- lista de tarefas -->
+            <section class="secao-tarefas" aria-labelledby="titulo-tarefas">
+                <div class="cabecalho-tarefas">
+                    <h2 id="titulo-tarefas" class="titulo-secao">
+                        <i class="fas fa-list-check"></i>
+                        Lista de Tarefas
+                    </h2>
+                    <div class="filtros-tarefas">
+                        <button class="botao-filtro ativo" data-filtro="todas">
+                            Todas <span class="contador" id="contadorTodas">0</span>
+                        </button>
+                        <button class="botao-filtro" data-filtro="pendentes">
+                            Pendentes <span class="contador" id="contadorPendentes">0</span>
+                        </button>
+                        <button class="botao-filtro" data-filtro="concluidas">
+                            Concluídas <span class="contador" id="contadorConcluidas">0</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Estado de carregamento -->
+                <div id="estadoCarregando" class="estado-carregando">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Carregando suas tarefas...</p>
+                </div>
+
+                <!-- Estado de erro -->
+                <div id="estadoErro" class="estado-erro escondido">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Erro ao carregar</h3>
+                    <p id="mensagemErro">Não foi possível conectar com o servidor.</p>
+                    <button class="botao botao-secundario" onclick="carregarTarefas()">
+                        <i class="fas fa-rotate"></i>
+                        Tentar Novamente
+                    </button>
+                </div>
+
+                <!-- Estado vazio -->
+                <div id="estadoVazio" class="estado-vazio escondido">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>Nenhuma tarefa cadastrada</h3>
+                    <p>Comece adicionando sua primeira tarefa acima!</p>
+                </div>
+
+                <!-- Container das tarefas -->
+                <div id="listaTarefas" class="lista-tarefas"></div>
+            </section>
+        </main>
+
+        <footer class="rodape">
+            <p>
+                Desenvolvido com <i class="fas fa-heart"></i> por
+                <strong>Luciano Junior</strong>
+            </p>
+            <div class="links-rodape">
+                <a href="https://github.com/LucianoJunior18" target="_blank">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/luciano-oliveira-dev/" target="_blank">
+                    <i class="fab fa-linkedin"></i>
+                    LinkedIn
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal de confirmacao -->
+    <div id="modalConfirmacao" class="modal escondido">
+        <div class="conteudo-modal">
+            <h3>
+                <i class="fas fa-trash-alt"></i>
+                Confirmar Exclusão
+            </h3>
+            <p>Tem certeza que deseja excluir esta tarefa? Esta ação não pode ser desfeita.</p>
+            <div class="acoes-modal">
+                <button class="botao botao-secundario" onclick="fecharModal()">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </button>
+                <button class="botao botao-perigo" id="confirmarExclusao">
+                    <i class="fas fa-trash"></i>
+                    Excluir Tarefa
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificacao -->
+    <div id="notificacao" class="notificacao escondida">
+        <i class="fas fa-check-circle"></i>
+        <span id="mensagemNotificacao">Operação realizada com sucesso!</span>
+    </div>
+
+    <script src="app.js" defer></script>
+
+</body>
+
+</html>
