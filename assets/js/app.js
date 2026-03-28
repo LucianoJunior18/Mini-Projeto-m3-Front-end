@@ -3,7 +3,7 @@
 
 
 const CONFIG_API = {
-    urlBase: 'https://api-to-do-list-a7xp.onrender.com',
+    urlBase: 'https://api-to-do-list-production-ce71.up.railway.app',
     endpoints: {
         tarefas: '/tasks'
     }
